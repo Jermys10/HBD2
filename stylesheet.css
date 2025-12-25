@@ -1303,6 +1303,17 @@ audio {
         background-color: #466baf;
     }
 
+/* ===== VIDEO FINAL ===== */
+.final-video{
+  width: 100%;
+  max-width: 900px;
+  max-height: 70vh;
+  border-radius: 0;   /* sin marco redondeado */
+  outline: none;
+  display: block;
+  margin: 0 auto;
+}
+
 
 
     /*controlling tablet width*/

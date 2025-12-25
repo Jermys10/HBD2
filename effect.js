@@ -195,23 +195,44 @@ $('document').ready(function () {
     });
 
     function msgLoop(i) {
-      $("p:nth-child(" + i + ")")
-        .fadeOut('slow')
-        .delay(800)
+      var total = $('.message p').length;
+
+      // Si llegamos al final, mostramos el video
+      if (i >= total) {
+        // ocultar el último visible por si acaso
+        $('.message p').fadeOut('slow');
+
+        // mostrar video final
+        $('#finalVideoSection').fadeIn('slow', function () {
+          var v = document.getElementById('finalVideo');
+          if (v) {
+            v.muted = false; // ponelo en true si querés facilitar autoplay en móviles
+            v.loop = true;
+            v.play().catch(function () { /* algunos navegadores bloquean autoplay */ });
+          }
+        });
+
+        // opcional: volver a mostrar el queque
+        $('.cake').fadeIn('fast');
+        return;
+      }
+
+      // Oculta el anterior (si i==0 no hay anterior)
+      if (i > 0) {
+        $(".message p:nth-child(" + i + ")").fadeOut('slow');
+      }
+
+      // Muestra el actual
+      $(".message p:nth-child(" + (i + 1) + ")")
+        .fadeIn('slow')
+        .delay(1200)
         .promise()
         .done(function () {
-          i = i + 1;
-          $("p:nth-child(" + i + ")").fadeIn('slow').delay(1000);
-          if (i == 50) {
-            $("p:nth-child(49)").fadeOut('slow').promise().done(function () {
-              $('.cake').fadeIn('fast');
-            });
-          } else {
-            msgLoop(i);
-          }
+          msgLoop(i + 1);
         });
     }
 
+    // INICIAR
     msgLoop(0);
   });
 });
